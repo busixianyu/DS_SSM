@@ -1,0 +1,3 @@
+CREATE TABLE ds_user(
+id INT PRIMARY KEY
+);

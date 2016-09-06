@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.ds.dao.UserDao">
+
+	<!-- resultMap  -->
+	<resultMap type="DsUser" id="dsUser">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="age" property="age"/>
+	</resultMap>
+	
+	<!-- 查询用户   get*   -->
+	<select id="getUserListWithPage" resultMap="dsUser">
+		<bind name="pattern" value="'%' + name + '%'" />
+		select id,name,age from ds_user WHERE 1=1
+		<if test="name != null">
+			AND NAME LIKE #{pattern}
+		</if>
+	</select>
+	<select id="getUserById" resultMap="dsUser">
+		SELECT id,name,age FROM ds_user WHERE id = #{id}
+	</select>
+	<select id="findByName" resultType="int">
+		SELECT count(1) FROM ds_user WHERE name = #{name}
+		<if test="id != null">
+			AND id != #{id}
+		</if>
+	</select>
+	<update id="updateUser">
+		UPDATE ds_user SET name=#{name},age=#{age} WHERE id=#{id}
+	</update>
+	<insert id="addUser">
+		INSERT INTO ds_user(name,age) VALUES (#{name},#{age})
+	</insert>
+	<delete id="deleteUserById">
+		DELETE FROM ds_user WHERE id=#{id}
+	</delete>
+</mapper>
